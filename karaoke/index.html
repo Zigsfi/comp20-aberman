@@ -16,7 +16,7 @@
 <script>
 	// Complete this section and create a CSS file named style.css
 
-var times  = [0,5, 21.0, 38.0, 55.0, 70.0, 85.0, 100.0, 120.0, 125.0, 145.0, 160.0];
+var times  = [0,5, 21.0, 38.0, 55.0, 70.0, 85.0, 100.0, 120.0, 125.0, 145.0];
 times = times.map(function(x) {return parseFloat(x)});
 var lyrics = ["",
     "Oh, I could hide 'neath the wings <br/>Of the bluebird as she sings.<br/> The six o'clock alarm would never ring.", 
@@ -31,6 +31,7 @@ var lyrics = ["",
 
     "Cheer up, Sleepy Jean.<br/>Oh, what can it mean.<br/>To a daydream believer<br/>And a homecoming queen.",
     "[Instrumental interlude]",
+    "Cheer up, Sleepy Jean.<br/>Oh, what can it mean.<br/>To a daydream believer<br/>And a homecoming queen.",
     "Cheer up, Sleepy Jean.<br/>Oh, what can it mean.<br/>To a daydream believer<br/>And a homecoming queen."
     ]
     lyricDict = {};
@@ -41,10 +42,12 @@ var v = document.getElementById("music_video");
 var d = document.getElementById("lyrics");
 v.addEventListener("timeupdate", function() { 
         function getLyrics(time) {
-        endtime = times.filter(function(x) {  return x < time});
-        return (lyricDict[endtime[endtime.length-1]]);
+            var endtime = times.filter(function(x) {  return x < time});
+            return (lyricDict[endtime[endtime.length-1]]);
         }
-        d.innerHTML = getLyrics(v.currentTime);
+        var lyric =  getLyrics(v.currentTime);
+        d.innerHTML = '<span class="cute">'+(lyric ? lyric : "")+"</span>";
+        
         });
 </script>
 </body>
