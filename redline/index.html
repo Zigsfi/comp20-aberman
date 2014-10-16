@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBXytsTGPDgxCcgRFdOuLLj7yh2jInP40">
+    </script>
+    <script type="text/javascript">
+function getStuff() {
+    var xhr = new XMLHttpRequest();
+    //xhr.withCredentials = true;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            //regrettably, this will never happen (unless the server provides a header that allows it)
+        }
+    };
+    xhr.open("GET", "http://developer.mbta.com/lib/rthr/red.json");
+    xhr.send();
+}
+function initialize() {
+    getStuff();
+    var mapOptions = {
+center: { lat: 42.2846847,lng:-71.064473621 },
+        zoom: 16
+    };
+    var map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+    var geocoder = new google.maps.Geocoder();
+    var pos = {lat:0, lng:0}
+    geocoder.geocode({address:"Ashmont T Station"}, function(result, stat) 
+            {
+            pos = result[0].geometry.location;
+            pos = {lat:pos.lat(), lng:pos.lng()};
+            var marker = new google.maps.Marker({map:map, position:pos , icon:google.maps.CIRCLE});
+            });
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    </head>
+    <body>
+    <div id="map-canvas"></div>
+    </body>
+    </html>
