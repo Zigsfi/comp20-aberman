@@ -49,7 +49,6 @@ navigator.geolocation.getCurrentPosition(
         function(position) {
             xhr.send("login=PeterGriffin&lat="+position.coords.latitude+"&lng="+position.coords.longitude);
             map.center=position;
-            console.log("Hi");
         }
     );
 
