@@ -48,9 +48,14 @@ xhr.onreadystatechange = function () {
 navigator.geolocation.getCurrentPosition(
         function(position) {
             xhr.send("login=PeterGriffin&lat="+position.coords.latitude+"&lng="+position.coords.longitude);
-            map.center=position;
-        }
-    );
+            map.center=position.coords;
+            var marker = new google.maps.Marker({map:map, position:{lat:position.coords.latitude, lng:position.coords.longitude}, icon:google.maps.blu_circle});
+            var infoWindow = new google.maps.InfoWindow(
+                {content:"<h1>"+names[person.name]+"</h1>"}
+                );
+            infoWindow.open(map, marker);
+            }
+        );
 
 </script>
 </head>
