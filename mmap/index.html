@@ -80,7 +80,7 @@ xhr.onreadystatechange = function () {
                     );
                 return {"person":person, "distance":distance};
         });
-        var sortdistances = distances.sort(function(a, b) {return b - a}); //idiom for sorting numbers
+        var sortdistances = distances.sort(function(a, b) {return b["distance"] - a["distance"]}); //idiom for sorting numbers
         var overlay = document.getElementById("over_map");
         for (x = 0; x < sortdistances.length; x++) {
             var obj = sortdistances[x];
