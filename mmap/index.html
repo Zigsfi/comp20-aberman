@@ -33,7 +33,7 @@ function distanceBetween(pos1, pos2) {
         Math.sin(dLon/2) * Math.sin(dLon/2);  
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; 
-    return d ;
+    return d * 621371;
 }
 navigator.geolocation.getCurrentPosition(function (pos) { position = pos;});
 //both pos1 and pos2 are expected as JSON of the form {lat:*latitude*, lng:*longitude*
