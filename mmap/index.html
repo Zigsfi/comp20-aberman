@@ -109,7 +109,7 @@ xhr.onreadystatechange = function () {
         var infoWindow = new google.maps.InfoWindow(
                 {content:"<h1>Me</h1><p>Latitude:"
                 +position.coords.latitude+"</p><p>Longitude:"+position.coords.longitude
-                +"</p><p>Note:"+person.loc.note+"</p>",disableAutoPan:false});
+                +"</p>",disableAutoPan:false});
         infoWindow.open(map, marker);
     }
 }
