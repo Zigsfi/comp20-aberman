@@ -9,13 +9,14 @@
 	  // Most of your work will be done here...
     $(document).ready(function() {
             for (key in localStorage) {
-                $("#news").prepend(localStorage[key]+"<br/>");
+                $("#news").prepend(key+" - "+localStorage[key]+"<br/>");
             }
             $('#msg').bind("enterKey", function(e) {
-                    msg = $('#msg').val();
-                    $("#news").prepend(msg+"<br/>").val()
+                    var time = new Date();
+                    var msg = $('#msg').val();
+                    $("#news").prepend(time.toString() +" - "+msg+"<br/>").val()
 
-                    localStorage[new Date().getTime()] = msg;
+                    localStorage[time.toString()] = msg;
                     $('#msg').val("");
                 });
             $('#msg').keyup(function(e){
