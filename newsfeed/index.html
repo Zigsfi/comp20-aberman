@@ -8,8 +8,14 @@
 	<script>
 	  // Most of your work will be done here...
     $(document).ready(function() {
+            posts = [];
             for (key in localStorage) {
-                $("#news").prepend(key+" - "+localStorage[key]+"<br/>");
+                posts.push({"time":key, "content":localStorage[key]});
+            }
+            posts.sort(function(a, b) {return a["time"] - b["time"];});
+            for (i = 0; i < posts.length; i++) {
+                var post = posts[i];
+                $("#news").prepend(post["time"]+" - "+post["content"]+"<br/>");
             }
             $('#msg').bind("enterKey", function(e) {
                     var time = new Date();
