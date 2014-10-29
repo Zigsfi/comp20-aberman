@@ -20,8 +20,7 @@
             $('#msg').bind("enterKey", function(e) {
                     var time = new Date();
                     var msg = $('#msg').val();
-                    $("#news").prepend(time.toString() +" - "+msg+"<br/>").val()
-
+                    $("#news").prepend(time.toString() +" - "+msg+"<br/>");
                     localStorage[time.toString()] = msg;
                     $('#msg').val("");
                 });
