@@ -1,0 +1,86 @@
+<html>
+<head>
+</head>
+<body>
+<h1>Introduction</h1>
+<p>
+The marauder's map is a fictional object that tells you the location of everybody
+in hogwarts. This application attempts to mimic that functionality by crowd-
+sourcing location data from all users and combining it to form a record of
+locations. Arthur Berman's Corruption, Destruction, and Espionage (ABCDE) was hired to
+find problems and vectors for attack in the marauder's map backend by Victoria
+Tang. 
+</p>
+<h1>Methodology</h1>
+<p>
+Using a combination of curl, Google Chrome, and white-box code examination, we at 
+ABCDE have found vulnerabilities. With curl and chrome, we sent queries that deliberately
+exploited suspected attack vectors. With white-box code examination, we 
+confirmed suspicions related to flawed design. 
+</p> 
+<h1>Issues Found </h1>
+<ol>
+    <li>
+    Issue: Cross-Site scripting. 
+    <ul>
+        <li>Post /sendLocation</li>
+        <li>Severe problem: a malicious attacker could exploit this vulnerability
+        to redirect to attack sites, serve unwanted content, or exploit
+        browser vulnerabilities</li>
+        <li>
+        We found this problem by running <code>curl -d 'login="&lt;script&gt;alert("hacked");&lt;/script&gt;"&lat=0&lng=0' 
+        <a href="http://rocky-shore-4095.herokuapp.com/sendLocation">rocky-shore-4095.herokuapp.com/sendLocation</a> </code>
+        </li>
+        <li> This vulnerability can be seen by navigating to 
+        <a href="http://rocky-shore-4095.herokuapp.com">the target website</a>;
+        the vulnerability causes a pop-up displaying "hacked" to present. </li>
+        <li>
+        To resolve this problem, we must sanitize the input for sendlocation by disallowing html-unsafe characters. If we were to use a sane templating system, for instance jinja2, such content will automatically be disallowed. 
+        </li>
+    </ul>
+    </li>
+    <li>
+    Issue: Query Injection
+    <ul>
+        <li>Get /locations.json</li>
+        <li>Severe problem: a malicious attacker could exploit this vulnerability
+        to illictly obtain information in the database
+        </li>
+        <li>
+        We found this problem by accessing 
+        <a href="http://rocky-shore-4095.herokuapp.com/locations.json?login[$ne]=f">rocky-shore-4095.herokuapp.com/locations.json?login[$ne]=f</a> 
+        </li>
+        <li> This vulnerability can be seen by navigating to 
+        <a href="http://rocky-shore-4095.herokuapp.com/locations.json?login[$ne]=f">
+            rocky-shore-4095.herokuapp.com/locations.json?login[$ne]=f</a> 
+        . The vulnerability displays the contents of the entire database collection</li>
+        <li>
+        To resolve this problem, we must sanitize the input for /locations.json by disallowing queries that are not represented in express as strings. 
+        </li>
+    </ul>
+    </li>
+    <li>
+    Issue: Cross-origin resource sharing wild-card
+    <ul>
+        <li>Backend, all pages</li>
+        <li>Low problem: a malicious attacker could exploit this vulnerability
+        to make API calls from any domain, as opposed to only the domains 
+        explicitly permitted. This could be combined with another attack to 
+        harm other websites that make API calls to the map. 
+        </li>
+        <li>
+        We found this problem by running <code>curl -d 'login="&lt;script&gt;alert("hacked");&lt;/script&gt;"&lat=0&lng=0' 
+        <a href="http://rocky-shore-4095.herokuapp.com/sendLocation">rocky-shore-4095.herokuapp.com/sendLocation</a> </code>
+        </li>
+        <li> This vulnerability can be seen by navigating to 
+        <a href="http://rocky-shore-4095.herokuapp.com">the target website</a>;
+        the vulnerability causes a pop-up displaying "hacked" to present. </li>
+        <li>
+        To resolve this problem, we must sanitize the input for sendlocation by disallowing html-unsafe characters. If we were to use a sane templating system, for instance jinja2, such content will automatically be disallowed. 
+        </li>
+    </ul>
+    </li>
+</ol>
+</body>
+
+</html>
