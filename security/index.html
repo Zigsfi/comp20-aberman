@@ -69,14 +69,30 @@ confirmed suspicions related to flawed design.
         harm other websites that make API calls to the map. 
         </li>
         <li>
-        We found this problem by running <code>curl -d 'login="&lt;script&gt;alert("hacked");&lt;/script&gt;"&lat=0&lng=0' 
-        <a href="http://rocky-shore-4095.herokuapp.com/sendLocation">rocky-shore-4095.herokuapp.com/sendLocation</a> </code>
+        We found this vulnerability by viewing the source code. 
         </li>
-        <li> This vulnerability can be seen by navigating to 
-        <a href="http://rocky-shore-4095.herokuapp.com">the target website</a>;
-        the vulnerability causes a pop-up displaying "hacked" to present. </li>
+        <li> This vulnerability can be seen by making api calls from another website on any arbitrary domain. 
+        </li>
         <li>
-        To resolve this problem, we must sanitize the input for sendlocation by disallowing html-unsafe characters. If we were to use a sane templating system, for instance jinja2, such content will automatically be disallowed. 
+        To resolve this problem, we must implement a white-list instead of using wild-card
+        </li>
+    </ul>
+    </li>
+    <li>
+    Issue: Invalid location data
+    <ul>
+        <li>Backend, all pages</li>
+        <li>Low problem: a malicious user could exploit this vulnerability to
+        flood the database with invalid information, corrupting the accuracy
+        of the service's location information
+        </li>
+        <li>
+        We found this vulnerability by attempting to enter obviously false data. 
+        </li>
+        <li> This vulnerability can be seen by posting arbitrary latitude,longitude pairs to the sendLocation endpoint. 
+        </li>
+        <li>
+        To resolve this problem, we must implement a data sanity heuristic that uses previous inputs to create a range in which a new entry can reasonably be expected. This would likely involve looking for patterns in previous entries associated with a given login. 
         </li>
     </ul>
     </li>
